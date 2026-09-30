@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Assistant AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: #4f46e5;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+        }
+
+        .chat-box {
+            height: 430px;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9ff;
+        }
+
+        .message {
+            margin: 12px 0;
+            padding: 12px 16px;
+            border-radius: 15px;
+            max-width: 75%;
+            line-height: 1.5;
+        }
+
+        .bot {
+            background: #e0e7ff;
+            color: #222;
+            margin-right: auto;
+        }
+
+        .user {
+            background: #4f46e5;
+            color: white;
+            margin-left: auto;
+        }
+
+        .input-area {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            background: white;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .input-area button {
+            margin-left: 10px;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 25px;
+            background: #4f46e5;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .input-area button:hover {
+            background: #3730a3;
+        }
+
+        .faq-section {
+            padding: 20px;
+            background: white;
+        }
+
+        .faq-section h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .faq-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .faq-buttons button {
+            padding: 10px 15px;
+            border: 1px solid #4f46e5;
+            background: white;
+            color: #4f46e5;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .faq-buttons button:hover {
+            background: #4f46e5;
+            color: white;
+        }
+    </style>
+</head><script src="script.js"></script><script src="script.js"></script>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🤖 FAQ Assistant AI</h1>
+        <p>Ask your questions and get instant answers</p>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+
+        <div class="message bot">
+            Hello! 👋 I am your FAQ Assistant AI.<br>
+            Ask me anything about our services.
+        </div>
+
+    </div>
+
+    <div class="faq-section">
+
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-buttons">
+            <button onclick="askQuestion('What is FAQ Assistant AI?')">
+                What is FAQ Assistant?
+            </button>
+
+            <button onclick="askQuestion('How can I register?')">
+                How can I register?
+            </button>
+
+            <button onclick="askQuestion('How can I contact support?')">
+                Contact Support
+            </button>
+
+            <button onclick="askQuestion('What are the services?')">
+                Services
+            </button>
+        </div>
+
+    </div>
+
+    <div class="input-area">
+        <input
+            type="text"
+            id="userInput"
+            placeholder="Type your question..."
+            onkeypress="handleEnter(event)"
+        >
+
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+</div>
+
+<script>
+
+function sendMessage() {
+
+    let input = document.getElementById("userInput");
+    let question = input.value.trim();
+
+    if (question === "") {
+        return;
+    }
+
+    addMessage(question, "user");
+
+    let answer = getAnswer(question);
+
+    setTimeout(function() {
+        addMessage(answer, "bot");
+    }, 500);
+
+    input.value = "";
+}
+
+
+function addMessage(message, type) {
+
+    let chatBox = document.getElementById("chatBox");
+
+    let div = document.createElement("div");
+
+    div.className = "message " + type;
+
+    div.innerHTML = message;
+
+    chatBox.appendChild(div);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+
+function askQuestion(question) {
+
+    document.getElementById("userInput").value = question;
+
+    sendMessage();
+}
+
+
+function handleEnter(event) {
+
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+
+}
+
+
+function getAnswer(question) {
+
+    question = question.toLowerCase();
+
+    if (
+        question.includes("hello") ||
+        question.includes("hi") ||
+        question.includes("hey")
+    ) {
+        return "Hello! 👋 How can I help you?";
+    }
+
+    if (
+        question.includes("what is faq") ||
+        question.includes("faq assistant")
+    ) {
+        return "FAQ Assistant AI is an intelligent system that answers frequently asked questions automatically.";
+    }
+
+    if (
+        question.includes("register") ||
+        question.includes("registration") ||
+        question.includes("sign up")
+    ) {
+        return "To register, click the Sign Up option and enter your basic details.";
+    }
+
+    if (
+        question.includes("service") ||
+        question.includes("services")
+    ) {
+        return "We provide information, support, FAQs and quick answers to common user questions.";
+    }
+
+    if (
+        question.includes("contact") ||
+        question.includes("support")
+    ) {
+        return "You can contact our support team through the Contact Us section.";
+    }
+
+    if (
+        question.includes("thank") ||
+        question.includes("thanks")
+    ) {
+        return "You're welcome! 😊 Feel free to ask another question.";
+    }
+
+    if (
+        question.includes("bye")
+    ) {
+        return "Goodbye! 👋 Have a nice day.";
+    }
+
+    return "Sorry, I couldn't find an answer for that question. Please try asking a different FAQ.";
+}
+
+</script>
+
+</body>
+</html>
